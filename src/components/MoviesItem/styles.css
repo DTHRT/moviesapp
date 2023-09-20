@@ -1,0 +1,29 @@
+.MoviesItem {
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  min-height: 280px;
+}
+
+.MoviesItem__content {
+  padding: 20px;
+}
+
+.MoviesItem ul {
+  display: flex;
+  gap: 8px;
+}
+
+.MoviesItem__title {
+  margin-top: 12px;
+}
+
+.MoviesItem__date {
+  margin-top: 7px;
+}
+
+.MoviesItem__genres {
+  margin-top: 7px;
+}
+
+.MoviesItem__description {
+  margin-top: 10px;
+}
