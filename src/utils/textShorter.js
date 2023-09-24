@@ -1,3 +1,16 @@
 export default function textShorter(text) {
-  return text.length > 204 ? `${text.slice(0, 204 - 3)}...` : text
+  const maxLength = 204
+
+  if (text.length <= maxLength) {
+    return text
+  }
+
+  const shortenedText = text.slice(0, maxLength)
+  const lastSpaceIndex = shortenedText.lastIndexOf(' ')
+
+  if (lastSpaceIndex !== -1) {
+    return `${shortenedText.slice(0, lastSpaceIndex)}...`
+  }
+
+  return `${shortenedText}...`
 }
