@@ -1,64 +1,40 @@
-import { Component } from 'react'
 import './styles.css'
 import { Col, Row, Alert } from 'antd'
 import { Online, Offline } from 'react-detect-offline'
 
 import MoviesItem from '../MoviesItem'
-import MovieService from '../../services/MovieService'
 import Loader from '../Loader/Loader'
 
-export default class MoviesList extends Component {
-  movieService = new MovieService()
+export default function MoviesList({ films, error, loading }) {
+  let content = null
 
-  constructor() {
-    super()
-
-    this.state = {
-      films: [],
-      error: false,
-      loading: true,
-    }
-
-    this.movieService
-      .getMovies()
-      .then((movies) => {
-        this.setState({ films: movies, loading: false })
-      })
-      .catch(this.onError)
+  if (loading) {
+    content = <Loader />
   }
 
-  onError = () => {
-    this.setState({
-      error: true,
-      loading: false,
-    })
+  if (error) {
+    content = <Alert message="Something went wrong" type="error" showIcon />
   }
 
-  render() {
-    const { films, error, loading } = this.state
-
-    let content = <Loader />
-
-    if (error) {
-      content = <Alert message="Something went wrong" type="error" showIcon />
-    }
-
-    if (!error && !loading) {
-      content = <ShowMovies films={films} />
-    }
-
-    return (
-      <div className="MoviesList">
-        <Offline>
-          <Alert message="You are offline" type="warning" showIcon />
-        </Offline>
-        <Online>{content}</Online>
-      </div>
-    )
+  if (!error && !loading) {
+    content = <ShowMovies films={films} />
   }
+
+  return (
+    <div className="MoviesList">
+      <Offline>
+        <Alert message="You are offline" type="warning" showIcon />
+      </Offline>
+      <Online>{content}</Online>
+    </div>
+  )
 }
 
 function ShowMovies({ films }) {
+  if (films.length === 0) {
+    return <Alert message="No movies found" type="info" showIcon />
+  }
+
   return (
     <Row gutter={[36, 37]}>
       {films.map((film) => (

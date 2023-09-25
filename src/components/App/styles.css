@@ -4,3 +4,7 @@
   max-width: 1010px;
   margin: 0 auto;
 }
+
+.App__container {
+  padding: 21px 32px;
+}

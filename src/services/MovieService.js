@@ -1,13 +1,14 @@
 export default class MovieService {
   #apiBase = 'https://api.themoviedb.org/'
 
+  #apiKey = process.env.REACT_APP_MOVIEAPP_KEY
+
   async getResourse(url) {
     const options = {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNzIyZjMyYjBmYzg3NTc0ZjA0ZWIzYjgyMzQ1ZTk5MSIsInN1YiI6IjY1MGIyZWNlY2FkYjZiMDBjNGY3ODE3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.HrFAa8bAchyIkqUEfluQghfCDQy1UdJZDT3eG2VHSAw',
+        Authorization: this.#apiKey,
       },
     }
 
@@ -22,9 +23,9 @@ export default class MovieService {
     return result
   }
 
-  async getMovies() {
-    const url = '3/search/movie?query=return'
+  async getMovies(name = '', page = 1) {
+    const url = `3/search/movie?query=${name}&page=${page}`
     const response = await this.getResourse(url)
-    return response.results
+    return { movies: response.results, totalMovies: response.total_results }
   }
 }
