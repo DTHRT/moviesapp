@@ -1,6 +1,4 @@
-export default function textShorter(text) {
-  const maxLength = 150
-
+export default function textShorter(text, maxLength = 150) {
   if (text.length <= maxLength) {
     return text
   }

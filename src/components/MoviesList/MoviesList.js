@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './styles.css'
 import { Col, Row, Alert } from 'antd'
 import { Online, Offline } from 'react-detect-offline'
@@ -5,7 +6,7 @@ import { Online, Offline } from 'react-detect-offline'
 import MoviesItem from '../MoviesItem'
 import Loader from '../Loader/Loader'
 
-export default function MoviesList({ films, error, loading }) {
+function MoviesList({ films, error, loading, syncWithLocalStorage }) {
   let content = null
 
   if (loading) {
@@ -17,7 +18,7 @@ export default function MoviesList({ films, error, loading }) {
   }
 
   if (!error && !loading) {
-    content = <ShowMovies films={films} />
+    content = <ShowMovies films={films} syncWithLocalStorage={syncWithLocalStorage} />
   }
 
   return (
@@ -30,7 +31,7 @@ export default function MoviesList({ films, error, loading }) {
   )
 }
 
-function ShowMovies({ films }) {
+function ShowMovies({ films, syncWithLocalStorage }) {
   if (films.length === 0) {
     return <Alert message="No movies found" type="info" showIcon />
   }
@@ -40,14 +41,23 @@ function ShowMovies({ films }) {
       {films.map((film) => (
         <Col span={12} key={film.id}>
           <MoviesItem
-            title={film.original_title}
-            date={film.release_date}
-            genres={film.genre_ids}
-            description={film.overview}
-            img={film.poster_path}
+            id={film.id}
+            title={film.title}
+            date={film.date}
+            genreIds={film.genreIds}
+            description={film.description}
+            img={film.img}
+            syncWithLocalStorage={syncWithLocalStorage}
           />
         </Col>
       ))}
     </Row>
   )
 }
+
+MoviesList.defaultProps = {
+  error: false,
+  loading: false,
+}
+
+export default MoviesList
