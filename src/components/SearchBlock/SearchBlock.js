@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { Component } from 'react'
 
 import MoviesList from '../MoviesList/MoviesList'

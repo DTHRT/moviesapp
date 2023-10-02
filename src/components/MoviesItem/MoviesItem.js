@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-debugger */
 import { Component } from 'react'
 import { Tag, Image, Empty, Rate } from 'antd'
 import { format } from 'date-fns'
@@ -17,7 +15,6 @@ export default class MoviesItem extends Component {
 
     this.state = {
       genres: [],
-      rating: null,
     }
 
     this.checkRating = (id) => {
@@ -32,7 +29,6 @@ export default class MoviesItem extends Component {
         movieService.removeFromRatedList(id)
       } else {
         movieService.addToRatedList({ ...this.props, rate: number })
-        this.setState({ rating: number })
       }
 
       props.syncWithLocalStorage()
@@ -55,7 +51,7 @@ export default class MoviesItem extends Component {
   }
 
   render() {
-    const { title, date, img, description, id, genreIds } = this.props
+    const { title, date, img, description, id } = this.props
 
     let formattedDate = 'Unknown'
 
@@ -64,7 +60,7 @@ export default class MoviesItem extends Component {
       formattedDate = format(dateObj, 'MMMM d, yyyy')
     }
 
-    const { genres, rating } = this.state
+    const { genres } = this.state
 
     return (
       <div className="MoviesItem">
@@ -75,13 +71,13 @@ export default class MoviesItem extends Component {
           <div className="MoviesItem__content">
             <span
               className={classNames('MoviesItem__circleRating', {
-                'MoviesItem__circleRating--red': rating > 0 && rating < 3,
-                'MoviesItem__circleRating--orange': rating >= 3 && rating < 5,
-                'MoviesItem__circleRating--yellow': rating >= 5 && rating < 7,
-                'MoviesItem__circleRating--green': rating >= 7,
+                'MoviesItem__circleRating--red': this.checkRating(id) > 0 && this.checkRating(id) < 3,
+                'MoviesItem__circleRating--orange': this.checkRating(id) >= 3 && this.checkRating(id) < 5,
+                'MoviesItem__circleRating--yellow': this.checkRating(id) >= 5 && this.checkRating(id) < 7,
+                'MoviesItem__circleRating--green': this.checkRating(id) >= 7,
               })}
             >
-              {rating}
+              {this.checkRating(id)}
             </span>
             <h2 className="MoviesItem__title">{textShorter(title, 20)}</h2>
             <p className="MoviesItem__date">{formattedDate}</p>
@@ -94,7 +90,7 @@ export default class MoviesItem extends Component {
             </ul>
             <p className="MoviesItem__description">{textShorter(description)}</p>
             <div className="MoviesItem__rateWrapper">
-              <Rate allowHalf count={10} defaultValue={this.checkRating(id)} onChange={this.onRate} />
+              <Rate allowHalf count={10} value={this.checkRating(id)} onChange={this.onRate} />
             </div>
           </div>
         </div>

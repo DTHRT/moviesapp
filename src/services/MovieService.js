@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 /* eslint-disable class-methods-use-this */
 export default class MovieService {
   #apiBase = 'https://api.themoviedb.org/'

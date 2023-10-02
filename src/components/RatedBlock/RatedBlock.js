@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-/* eslint-disable no-debugger */
 import './styles.css'
 import MoviesList from '../MoviesList/MoviesList'
 import { GlobalConsumer } from '../GlobalContext'
